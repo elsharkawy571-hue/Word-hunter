@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صائد الكلمات — Word Hunter | Al Elm Alnafea School</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1f4e79;--navy2:#163a5c;--gold:#bf9000;--gold2:#e6b800;--cream:#f7f3e8;--green:#538135;--red:#c00000}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo','Segoe UI',Tahoma,sans-serif;background:#f4f6f9;color:#222;line-height:1.7}
+header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;text-align:center;padding:44px 16px 36px;position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 15%,rgba(230,184,0,.18),transparent 45%)}
+header .badge{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(230,184,0,.6);color:var(--gold2);border-radius:999px;padding:4px 18px;font-size:14px;margin-bottom:14px}
+header h1{font-size:clamp(26px,5vw,42px);font-weight:800}
+header h1 span{color:var(--gold2)}
+header p.en{letter-spacing:3px;color:#bcd0e5;font-size:14px;margin-top:4px}
+header p.sub{max-width:640px;margin:14px auto 0;font-size:16px;color:#e8eef6}
+nav{position:sticky;top:0;z-index:50;background:var(--navy2);display:flex;justify-content:center;gap:4px;flex-wrap:wrap;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+nav a{color:#dce7f2;text-decoration:none;padding:12px 18px;font-size:15px;font-weight:600;transition:.2s}
+nav a:hover{background:var(--gold);color:#fff}
+main{max-width:1000px;margin:0 auto;padding:28px 16px 60px}
+section{margin-bottom:52px}
+h2{color:var(--navy);font-size:26px;font-weight:800;text-align:center;margin-bottom:6px}
+.h2en{display:block;text-align:center;color:var(--gold);font-size:13px;letter-spacing:2px;margin-bottom:22px}
+.card{background:#fff;border-radius:14px;box-shadow:0 3px 14px rgba(31,78,121,.08);padding:22px;border:1px solid #e6ebf2}
+.stats{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+.stat{background:linear-gradient(160deg,#fff,#fdf8ea);border:1.5px solid var(--gold2);border-radius:14px;padding:14px 26px;text-align:center;min-width:150px}
+.stat .n{font-size:34px;font-weight:800;color:var(--navy)}
+.stat .l{font-size:13px;color:#666}
+.bar{height:16px;background:#e9edf3;border-radius:99px;overflow:hidden;border:1px solid #d7dee8}
+.bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--gold2),var(--gold));border-radius:99px;transition:width .6s}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.m{background:#fff;border-radius:14px;border:1px solid #e4e9f0;border-top:5px solid var(--navy);padding:18px;position:relative;transition:.25s;box-shadow:0 2px 10px rgba(31,78,121,.06)}
+.m:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(31,78,121,.12)}
+.m .wk{position:absolute;top:-13px;left:14px;background:var(--navy);color:#fff;font-size:12px;font-weight:700;padding:2px 12px;border-radius:99px}
+.m h3{color:var(--navy);font-size:17px;margin:4px 0 2px}
+.m .en{color:var(--gold);font-size:12px;letter-spacing:1px;direction:ltr;text-align:right}
+.m p{font-size:14.5px;color:#444;margin:8px 0}
+.m .proof{font-size:12.5px;color:#777;background:#f6f8fb;border-radius:8px;padding:6px 10px;margin-bottom:10px}
+.m label{display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:700;color:var(--green);cursor:pointer;user-select:none}
+.m input{width:19px;height:19px;accent-color:var(--green);cursor:pointer}
+.m.done{opacity:.72;border-top-color:var(--green)}
+.m.done h3{text-decoration:line-through}
+.m .place{position:absolute;bottom:14px;left:16px;font-size:11.5px;color:#999}
+.namebox{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+.namebox input{padding:12px 16px;border:2px solid var(--navy);border-radius:10px;font-family:inherit;font-size:16px;width:min(320px,80vw)}
+.btn{background:var(--navy);color:#fff;border:none;padding:12px 26px;border-radius:10px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:.2s}
+.btn:hover{background:var(--navy2)}
+.btn.gold{background:var(--gold)}.btn.gold:hover{background:#a67c00}
+.btn.wa{background:#25d366}.btn.wa:hover{background:#1eb856}
+.win{display:none;text-align:center;background:linear-gradient(160deg,#fffdf4,#fff3cd);border:2px dashed var(--gold);border-radius:16px;padding:26px;margin-top:18px}
+.win h3{color:var(--gold);font-size:26px}
+.letter{background:#fffdf7;border:1px solid #e8dfc8;border-radius:14px;padding:26px;font-size:15.5px;box-shadow:0 3px 12px rgba(191,144,0,.08)}
+.letter p{margin-bottom:12px}
+.sig{text-align:left;margin-top:18px;color:var(--navy);font-weight:700}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}
+th{background:var(--navy);color:#fff;padding:10px;font-size:14px}
+td{padding:9px 10px;text-align:center;border-bottom:1px solid #eef1f5;font-size:14.5px}
+tr:nth-child(even) td{background:#f8fafc}
+.hint{background:#eef4fb;border-right:4px solid var(--navy);border-radius:8px;padding:12px 16px;font-size:13.5px;color:#33506b;margin-bottom:16px}
+.sheetwrap{background:#fff;border-radius:14px;border:1px solid #e4e9f0;overflow:hidden;height:420px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#888}
+footer{background:var(--navy2);color:#cfe0ef;text-align:center;padding:26px 16px;font-size:14px}
+footer b{color:var(--gold2)}
+.stars-burst{position:fixed;inset:0;pointer-events:none;z-index:99}
+.stars-burst span{position:absolute;font-size:26px;animation:fall 2.4s ease-in forwards}
+@keyframes fall{0%{transform:translateY(-10vh) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(360deg);opacity:0}}
+.sync-msg{font-size:13px;color:var(--green);font-weight:700;text-align:center;margin-top:10px;min-height:20px}
+@media(max-width:600px){.stat{min-width:120px;padding:10px 16px}.stat .n{font-size:26px}}
+
+.uprow{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.upbtn{display:inline-flex;align-items:center;gap:6px;background:#f0f5fb;border:1.5px dashed var(--navy);color:var(--navy);border-radius:8px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s}
+.upbtn:hover{background:#e3edf8}
+.upstatus{font-size:12.5px;font-weight:700;color:#888}
+.upstatus.ok{color:var(--green)}
+.upstatus.busy{color:var(--gold)}
+.upstatus.err{color:var(--red)}
+.upthumb{width:44px;height:44px;object-fit:cover;border-radius:8px;border:1px solid #d7dee8;display:none}
+
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">🎯 مبادرة الصف الأول المتوسط</div>
+  <h1>صائد <span>الكلمات</span></h1>
+  <p class="en">★ WORD HUNTER ★</p>
+  <p class="sub">مهمة واحدة في الأسبوع — كلها خارج المدرسة: في البيت، في الشارع، في السوبرماركت. كل مهمة = نجمة ★ … وعشر نجوم = لقب «بطل الكلمات»!</p>
+</header>
+
+<nav>
+  <a href="#home">🏠 الرئيسية</a>
+  <a href="#missions">🎯 المهمات</a>
+  <a href="#parent">👨‍👩‍👧 ولي الأمر</a>
+  <a href="#board">🏆 لوحة النجوم</a>
+</nav>
+
+<main>
+<section id="home">
+  <h2>رحلتك تبدأ من هنا</h2>
+  <span class="h2en">START YOUR HUNT</span>
+  <div class="card">
+    <div class="namebox">
+      <input id="nm" placeholder="اكتب اسمك يا صياد…" />
+      <button class="btn gold" onclick="saveName()">سجّل اسمي</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n" id="stN">0</div><div class="l">★ نجومي</div></div>
+      <div class="stat"><div class="n" id="stR">مبتدئ</div><div class="l">رتبتي</div></div>
+      <div class="stat"><div class="n" id="stL">10</div><div class="l">مهام متبقية</div></div>
+    </div>
+    <div class="bar"><div id="fill"></div></div>
+    <p style="text-align:center;margin-top:14px;color:#555;font-size:14.5px">
+      الرتب: <b style="color:#8a6d00">مبتدئ ☆</b> ← <b style="color:#8a6d00">صائد نشيط ★3</b> ← <b style="color:#8a6d00">صائد محترف ★6</b> ← <b style="color:var(--gold)">بطل الكلمات ★10</b>
+    </p>
+    <div class="sync-msg" id="syncMsg"></div>
+    <div style="text-align:center;margin-top:12px">
+      <button class="btn wa" onclick="sendToTeacher()">📲 أرسل نجومي للمعلم على واتساب</button>
+    </div>
+  </div>
+  <div class="win" id="win">
+    <h3>🏆 بطل الكلمات!</h3>
+    <p style="margin:8px 0 16px;font-size:17px">أكملتَ المهمات العشر — أنت <b>English Champion</b> حقيقي!<br>أرسل لقطة الشاشة للمعلم لاستلام شهادتك.</p>
+    <button class="btn" onclick="document.getElementById('win').style.display='none'">متابعة</button>
+  </div>
+</section>
+
+<section id="missions">
+  <h2>المهمات العشر</h2>
+  <span class="h2en">10 MISSIONS — ONE PER WEEK</span>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section id="parent">
+  <h2>خطاب ولي الأمر</h2>
+  <span class="h2en">DEAR PARENTS</span>
+  <div class="letter">
+    <p>الأستاذ الفاضل / ولي أمر الطالب المحترم،</p>
+    <p>تحية طيبة وبعد،، يسرّنا أن نُطلق مبادرة <b>«صائد الكلمات — Word Hunter»</b> للصف الأول المتوسط بمدرسة العلم النافع، وهي مبادرة تعليمية ممتعة يقوم فيها الطلاب بمهام لغوية قصيرة باللغة الإنجليزية خارج أسوار المدرسة: في البيت، وفي الشارع، وفي السوبرماركت.</p>
+    <p>آلية العمل بسيطة: كل أسبوع تُنشر مهمة واحدة هنا، يؤديها الطالب في عشر دقائق تقريبًا، ويضع علامة الإنجاز في الموقع. كل مهمة منجزة تمنحه نجمة ★، وبعد عشر مهام يحصل على لقب «بطل الكلمات» وشهادة تقدير.</p>
+    <p>دوركم الكريم لا يتجاوز التشجيع — فبعض المهام مصممة خصيصًا ليجلس فيها الطالب مع أسرته: يعلّمكم كلمة جديدة، أو يغنّي لكم أغنية الحروف!</p>
+    <p>نأمل متابعة الموقع مع أبنائكم وتشجيعهم، وإبلاغنا بأي استفسار.</p>
+    <p>وتقبلوا خالص الشكر والتقدير،،</p>
+    <p class="sig">معلم اللغة الإنجليزية<br>Mr. Ahmed Elsharkawy</p>
+  </div>
+</section>
+
+<section id="board">
+  <h2>لوحة النجوم المباشرة</h2>
+  <span class="h2en">LIVE LEADERBOARD — GOOGLE SHEETS</span>
+  <div class="hint">💡 تُسجَّل النتائج والشواهد (صور) تلقائيًا في Google Sheet + مجلد Drive فور رفعها. رابط كل شاهد يظهر في عمود «الشاهد» بالورقة. لعرض الجدول هنا: افتح الورقة ← File ← Share ← Publish to web ← انسخ الرابط والصقه في السطر <b>SHEET_URL</b> أعلى كود الموقع.</div>
+  <div class="sheetwrap" id="sheetWrap">
+    <div style="font-size:46px">📊</div>
+    <div>جدول النجوم المباشر سيظهر هنا بعد تركيب رابط Google Sheets<br>(انظر ملف التعليمات المرفق)</div>
+  </div>
+</section>
+</main>
+
+<footer>
+  صائد الكلمات — Word Hunter 🎯 | <b>Al Elm Alnafea School</b> — Grade 7<br>
+  Learn it → Say it → Use it → Earn it!
+</footer>
+
+<script>
+/* ================================================================
+   إعدادات المعلم — ضع الروابط هنا بعد التركيب (انظر ملف التعليمات)
+   ================================================================ */
+const SCRIPT_URL = "";   // ← رابط Google Apps Script (تسجيل تلقائي)
+const SHEET_URL  = "";   // ← رابط النشر Public للوحة النجوم (iframe)
+
+const M=[
+["Word Detective at Home","المحقق في البيت","ابحث في البيت عن 5 منتجات مكتوب عليها كلمات إنجليزية (شامبو، كرتونة، جهاز…) واكتب الكلمات الخمس في دفترك ثم اقرأها بصوت عالٍ.","صورة الدفتر مع الكلمات الخمس","البيت"],
+["Street Sign Reader","قارئ اللافتات","امشِ في الشارع (مع أحد والديك) واقرأ بصوت عالٍ كل كلمة إنجليزية على اللافتات والمحلات، واكتب أغرب 3 كلمات وجدتها.","صورة لافتة + الكلمات الثلاث","الشارع"],
+["Screen Time Upgrade","ترقية وقت الشاشة","شاهد 5 دقائق فقط من أي كرتون أو فيديو إنجليزي، واكتب 3 كلمات سمعتها وأعجبتك ثم جرّب ترديدها.","صوتك وأنت تردد الكلمات","شاشة"],
+["My Room in English","غرفتي بالإنجليزية","أمام مرآة غرفتك: سمِّ 10 أشياء بالإنجليزية بصوت واثق (bed, door, window…)، ثم صف غرفتك في جملتين.","تسجيل صوتي أو فيديو قصير","غرفتك"],
+["English at the Family Table","الإنجليزية على المائدة","قل لأهلك اليوم: Good morning وThank you بالإنجليزية، وعلِّم أخاك أو أختك كلمة واحدة جديدة.","توقيع ولي الأمر","الأسرة"],
+["Supermarket Mission","مهمة السوبرماركت","في مشوار التسوق القادم: اعثر على 3 كلمات إنجليزية على المنتجات واقرأها بصوت عالٍ، واسأل: How much is this?","الكلمات الثلاث مكتوبة","السوبرماركت"],
+["Family Concert","حفلة عائلية","غنِّ أغنية الحروف ABC أو أغنية إنجليزية قصيرة لأفراد أسرتك بعد العشاء — لا تخف، الصوت الجميل يكفي!","فيديو أو توقيع ولي الأمر","غناء"],
+["Breakfast Reporter","مراسل الفطور","بعد فطور يوم الجمعة، صف طبقك بالإنجليزية في 3 جمل: I eat… / I like… / It is delicious!","الجمل الثلاث مكتوبة","فطورك"],
+["Number Sprint","سباق الأرقام","عُدَّ من 1 إلى 20 بالإنجليزية دون توقف ودون خطأ، واطلب من أهلك توقيتك: هل تستطيع في أقل من 15 ثانية؟","الزمن المسجّل","أرقام"],
+["Little Teacher","المعلم الصغير","اختر كلمة إنجليزية تحبها وعلِّمها كاملة لأحد والديك: المعنى + جملة + تهجئة. أنت المعلم اليوم!","توقيع «الطالب» + الكلمة","تعليم"]];
+const RANKS=[[0,"مبتدئ ☆"],[3,"صائد نشيط"],[6,"صائد محترف"],[10,"بطل الكلمات 🏆"]];
+let st={name:"",done:Array(10).fill(false),ev:Array(10).fill(false)};
+try{const s=localStorage.getItem("wordhunter_v1");if(s)st=JSON.parse(s);}catch(e){}
+function save(){try{localStorage.setItem("wordhunter_v1",JSON.stringify(st));}catch(e){}}
+function rankOf(n){let r=RANKS[0][1];for(const[k,v]of RANKS)if(n>=k)r=v;return r;}
+
+
+/* ====== التسجيل التلقائي في Google Sheets (يتطلب SCRIPT_URL) ====== */
+function syncSheet(){
+  if(!SCRIPT_URL || !st.name) return;
+  const n=st.done.filter(Boolean).length;
+  document.getElementById("syncMsg").textContent="⏳ جارٍ تسجيل نتيجتك في لوحة النجوم…";
+  fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},
+    body:JSON.stringify({name:st.name,stars:n,rank:rankOf(n)})})
+    .then(()=>{document.getElementById("syncMsg").textContent="✅ تم تسجيل نتيجتك تلقائيًا في لوحة النجوم!";})
+    .catch(()=>{document.getElementById("syncMsg").textContent="⚠️ تعذّر التسجيل التلقائي — استخدم زر واتساب.";});
+}
+
+/* ====== رفع الشواهد: ضغط + base64 + إرسال للـ Apps Script ====== */
+function upload(i,input){
+  if(!st.name){alert("اكتب اسمك في الأعلى أولًا يا صياد!");input.value="";return;}
+  const file=input.files[0]; if(!file) return;
+  const status=document.getElementById("up"+i);
+  status.className="upstatus busy"; status.textContent="⏳ جارٍ ضغط الصورة…";
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    const img=new Image();
+    img.onload=function(){
+      const max=1000, scale=Math.min(1,max/Math.max(img.width,img.height));
+      const cv=document.createElement("canvas");
+      cv.width=img.width*scale; cv.height=img.height*scale;
+      cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);
+      const b64=cv.toDataURL("image/jpeg",0.72).split(",")[1];
+      const th=document.getElementById("th"+i);
+      th.src=cv.toDataURL("image/jpeg",0.72); th.style.display="block";
+      if(!SCRIPT_URL){
+        status.className="upstatus err";
+        status.textContent="⚠️ لم يُركّب رابط SCRIPT_URL بعد — الصورة جاهزة، استخدم واتساب";
+        return;
+      }
+      status.textContent="⏳ جارٍ رفع الشاهد…";
+      fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},
+        body:JSON.stringify({name:st.name,mission:i+1,missionTitle:M[i][1],
+          stars:st.done.filter(Boolean).length,rank:rankOf(st.done.filter(Boolean).length),
+          filename:st.name.replace(/\s+/g,"_")+"_W"+(i+1)+".jpg",
+          mime:"image/jpeg",file:b64})})
+        .then(()=>{
+          st.ev[i]=true; save();
+          status.className="upstatus ok"; status.textContent="✔ تم رفع الشاهد وتسجيله!";
+        })
+        .catch(()=>{status.className="upstatus err";status.textContent="⚠️ تعذّر الرفع — أعد المحاولة";});
+    };
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function build(){
+  const g=document.getElementById("grid");g.innerHTML="";
+  M.forEach((m,i)=>{
+    const d=document.createElement("div");
+    d.className="m"+(st.done[i]?" done":"");
+    d.innerHTML='<span class="wk">W'+(i+1<10?"0":"")+(i+1)+'</span><h3>'+m[1]+'</h3><div class="en">'+m[0]+'</div><p>'+m[2]+'</p><div class="proof">📎 الشاهد المطلوب: '+m[3]+'</div><label><input type="checkbox" '+(st.done[i]?"checked":"")+' onchange="toggle('+i+')"> أنجزتُ المهمة ★</label><div class="uprow"><label class="upbtn">📷 رفع الشاهد<input type="file" accept="image/*" '+(i<9?'capture="environment"':'')+' style="display:none" onchange="upload('+i+',this)"></label><span class="upstatus'+(st.ev&&st.ev[i]?" ok":"")+'" id="up'+i+'">'+(st.ev&&st.ev[i]?"✔ تم رفع الشاهد":"لم يُرفع بعد")+'</span><img class="upthumb" id="th'+i+'"></div><span class="place">📍 '+m[4]+'</span>';
+    g.appendChild(d);
+  });
+}
+function update(){
+  const n=st.done.filter(Boolean).length;
+  document.getElementById("stN").textContent=n;
+  document.getElementById("stL").textContent=10-n;
+  document.getElementById("stR").textContent=rankOf(n);
+  document.getElementById("fill").style.width=(n*10)+"%";
+  if(n===10){document.getElementById("win").style.display="block";burst();}
+}
+function toggle(i){
+  st.done[i]=!st.done[i];save();build();update();syncSheet();
+  if(st.done[i] && st.done.filter(Boolean).length<10) burst();
+}
+function saveName(){
+  const v=document.getElementById("nm").value.trim();
+  if(!v){alert("اكتب اسمك أولًا يا صياد!");return;}
+  st.name=v;save();syncSheet();alert("أهلًا بك في الوكالة يا "+v+"! 🎯");update();
+}
+function sendToTeacher(){
+  const n=st.done.filter(Boolean).length;
+  if(!st.name){alert("اكتب اسمك في الأعلى أولًا");return;}
+  const msg="مرحبًا أستاذ أحمد! أنا الطالب "+st.name+" — أنجزت "+n+" من 10 مهمات في مبادرة صائد الكلمات ★ (رتبتي: "+rankOf(n)+")";
+  window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");
+}
+function burst(){
+  const c=document.createElement("div");c.className="stars-burst";
+  for(let i=0;i<40;i++){
+    const s=document.createElement("span");s.textContent=["★","✦","🌟","⭐"][i%4];
+    s.style.left=Math.random()*100+"vw";s.style.animationDelay=(Math.random()*0.8)+"s";
+    s.style.color=["#bf9000","#e6b800","#1f4e79"][i%3];c.appendChild(s);
+  }
+  document.body.appendChild(c);setTimeout(()=>c.remove(),3500);
+}
+/* لوحة النجوم المضمّنة */
+if(SHEET_URL){
+  document.getElementById("sheetWrap").innerHTML=
+    '<iframe src="'+SHEET_URL+'" style="width:100%;height:420px;border:0" loading="lazy"></iframe>';
+}
+if(st.name)document.getElementById("nm").value=st.name;
+build();update();
+</script>
+</body>
+</html>
