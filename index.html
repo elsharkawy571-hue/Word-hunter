@@ -1,9 +1,8 @@
-<!DOCTYPE html>
+<title<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>صائد الكلمات — Word Hunter | Al Elm Alnafea School</title>
+<meta>صائد الكلمات — Word Hunter | Al Elm Alnafea School</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#1f4e79;--navy2:#163a5c;--gold:#bf9000;--gold2:#e6b800;--cream:#f7f3e8;--green:#538135;--red:#c00000}
@@ -67,6 +66,7 @@ footer b{color:var(--gold2)}
 @keyframes fall{0%{transform:translateY(-10vh) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(360deg);opacity:0}}
 .sync-msg{font-size:13px;color:var(--green);font-weight:700;text-align:center;margin-top:10px;min-height:20px}
 @media(max-width:600px){.stat{min-width:120px;padding:10px 16px}.stat .n{font-size:26px}}
+
 .uprow{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
 .upbtn{display:inline-flex;align-items:center;gap:6px;background:#f0f5fb;border:1.5px dashed var(--navy);color:var(--navy);border-radius:8px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s}
 .upbtn:hover{background:#e3edf8}
@@ -75,6 +75,8 @@ footer b{color:var(--gold2)}
 .upstatus.busy{color:var(--gold)}
 .upstatus.err{color:var(--red)}
 .upthumb{width:44px;height:44px;object-fit:cover;border-radius:8px;border:1px solid #d7dee8;display:none}
+
+
 </style>
 </head>
 <body>
@@ -146,7 +148,7 @@ footer b{color:var(--gold2)}
 <section id="board">
   <h2>لوحة النجوم المباشرة</h2>
   <span class="h2en">LIVE LEADERBOARD — GOOGLE SHEETS</span>
-  <div class="hint">💡 تُسجَّل النتائج والشواهد (صور) تلقائيًا في Google Sheet + مجلد Drive فور رفعها. رابط كل شاهد يظهر في عمود «الشاهد» بالورقة.</div>
+  <div class="hint">💡 تُسجَّل النتائج والشواهد (صور) تلقائيًا في Google Sheet + مجلد Drive فور رفعها. رابط كل شاهد يظهر في عمود «الشاهد» بالورقة. لعرض الجدول هنا: افتح الورقة ← File ← Share ← Publish to web ← انسخ الرابط والصقه في السطر <b>SHEET_URL</b> أعلى كود الموقع.</div>
   <div class="sheetwrap" id="sheetWrap">
     <div style="font-size:46px">📊</div>
     <div>جدول النجوم المباشر سيظهر هنا بعد تركيب رابط Google Sheets<br>(انظر ملف التعليمات المرفق)</div>
@@ -160,9 +162,12 @@ footer b{color:var(--gold2)}
 </footer>
 
 <script>
+/* ================================================================
+   إعدادات المعلم — ضع الروابط هنا بعد التركيب (انظر ملف التعليمات)
+   ================================================================ */
 /* رابط السكربت مدمج مسبقًا — يعمل فورًا بلا أي إعداد */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby6xG8n0LwU_M1Ahg1hUXN2_zTLaGiF1q4dUYIhtKzpn-ytyqfUvZX5CPomvhqMH7An/exec";
-const SHEET_URL  = "";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzgG-YlZM-1KbabodISuUm78Oj_ed9_PHlX0CNYbMphr5idBJgTcgffwylnhPoQb0qLOA/exec";
+const SHEET_URL  = "";   // ← رابط النشر Public للوحة النجوم (iframe)
 
 const M=[
 ["Word Detective at Home","المحقق في البيت","ابحث في البيت عن 5 منتجات مكتوب عليها كلمات إنجليزية (شامبو، كرتونة، جهاز…) واكتب الكلمات الخمس في دفترك ثم اقرأها بصوت عالٍ.","صورة الدفتر مع الكلمات الخمس","البيت"],
@@ -181,6 +186,8 @@ try{const s=localStorage.getItem("wordhunter_v1");if(s)st=JSON.parse(s);}catch(e
 function save(){try{localStorage.setItem("wordhunter_v1",JSON.stringify(st));}catch(e){}}
 function rankOf(n){let r=RANKS[0][1];for(const[k,v]of RANKS)if(n>=k)r=v;return r;}
 
+
+/* ====== التسجيل التلقائي في Google Sheets (يتطلب SCRIPT_URL) ====== */
 function syncSheet(){
   if(!SCRIPT_URL || !st.name) return;
   const n=st.done.filter(Boolean).length;
@@ -191,6 +198,7 @@ function syncSheet(){
     .catch(()=>{document.getElementById("syncMsg").textContent="⚠️ تعذّر التسجيل التلقائي — استخدم زر واتساب.";});
 }
 
+/* ====== رفع الشواهد: ضغط + base64 + إرسال للـ Apps Script ====== */
 function upload(i,input){
   if(!st.name){alert("اكتب اسمك في الأعلى أولًا يا صياد!");input.value="";return;}
   const file=input.files[0]; if(!file) return;
@@ -269,6 +277,11 @@ function burst(){
     s.style.color=["#bf9000","#e6b800","#1f4e79"][i%3];c.appendChild(s);
   }
   document.body.appendChild(c);setTimeout(()=>c.remove(),3500);
+}
+/* لوحة النجوم المضمّنة */
+if(SHEET_URL){
+  document.getElementById("sheetWrap").innerHTML=
+    '<iframe src="'+SHEET_URL+'" style="width:100%;height:420px;border:0" loading="lazy"></iframe>';
 }
 if(st.name)document.getElementById("nm").value=st.name;
 build();update();
